@@ -1,0 +1,97 @@
+[
+    {
+        "value": "AC",
+        "bgColor": "darkOperator",
+        "colSpan": 1
+    },
+    {
+        "value": "+/-",
+        "bgColor": "darkOperator",
+        "colSpan": 1
+    },
+    {
+        "value": "%",
+        "bgColor": "darkOperator",
+        "colSpan": 1
+    },
+    {
+        "value": "divide",
+        "bgColor": "lightOperator",
+        "colSpan": 1
+    },
+    {
+        "value": "7",
+        "bgColor": "darkNumber",
+        "colSpan": 1
+    },
+    {
+        "value": "8",
+        "bgColor": "darkNumber",
+        "colSpan": 1
+    },
+    {
+        "value": "9",
+        "bgColor": "darkNumber",
+        "colSpan": 1
+    },
+    {
+        "value": "multiply",
+        "bgColor": "lightOperator",
+        "colSpan": 1
+    },
+    {
+        "value": "4",
+        "bgColor": "darkNumber",
+        "colSpan": 1
+    },
+    {
+        "value": "5",
+        "bgColor": "darkNumber",
+        "colSpan": 1
+    },
+    {
+        "value": "6",
+        "bgColor": "darkNumber",
+        "colSpan": 1
+    },
+    {
+        "value": "rest",
+        "bgColor": "lightOperator",
+        "colSpan": 1
+    },
+    {
+        "value": "1",
+        "bgColor": "darkNumber",
+        "colSpan": 1
+    },
+    {
+        "value": "2",
+        "bgColor": "darkNumber",
+        "colSpan": 1
+    },
+    {
+        "value": "3",
+        "bgColor": "darkNumber",
+        "colSpan": 1
+    },
+    {
+        "value": "plus",
+        "bgColor": "lightOperator",
+        "colSpan": 1
+    },
+    {
+        "value": "0",
+        "bgColor": "darkNumber",
+        "colSpan": 2
+    },
+    {
+        "value": ".",
+        "bgColor": "darkNumber",
+        "colSpan": 1
+    },
+    {
+        "value": "equal",
+        "bgColor": "lightOperator",
+        "colSpan": 1
+    }
+]

@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+button {
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+.darkNumber {
+    background-color: #646564;
+}
+
+.lightOperator {
+    background-color: #ff9f0b;
+}
+
+.darkOperator {
+    background-color: #414141;
+}
