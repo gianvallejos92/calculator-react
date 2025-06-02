@@ -1,7 +1,6 @@
 import { useContext } from 'react'
 
 import { GeneralContext } from '../../context/generalContext'
-import { ONE_BTN } from '../../actions/types';
 
 import Divide from '../Icons/Divide'
 import Multiply from '../Icons/Multiply'
@@ -18,9 +17,8 @@ const operationMap = {
 }
 
 const valueTypeMap = {
-    '1': 'ONE_BTN',
-    '2': 'TWO_BTN',
-    '3': 'THREE_BTN'
+    'number': 'NUMBER_ACTION',
+    'operator': 'OPERATOR_ACTION'
 }
 
 const heightStyle = "h-16 text-2xl ";
@@ -30,7 +28,10 @@ const borderStyle = "border-r border-b border-black ";
 const SquareBtn = ({item}) => {
     const { dispatch } = useContext(GeneralContext);
     const handleOnClick = () => {
-        dispatch({ type: valueTypeMap[item.value] });
+        dispatch({ 
+            type: valueTypeMap[item.type],
+            value: item.value 
+        });
     };
 
     const colspanStyle = (item.colSpan != 1) ? " col-span-2 " : "";

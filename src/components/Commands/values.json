@@ -2,96 +2,115 @@
     {
         "value": "AC",
         "bgColor": "darkOperator",
-        "colSpan": 1
+        "colSpan": 1,
+        "type": "operator"
     },
     {
         "value": "+/-",
         "bgColor": "darkOperator",
-        "colSpan": 1
+        "colSpan": 1,
+        "type": "operator"
     },
     {
         "value": "%",
         "bgColor": "darkOperator",
-        "colSpan": 1
+        "colSpan": 1,
+        "type": "operator"
     },
     {
-        "value": "divide",
+        "value": "÷",
         "bgColor": "lightOperator",
-        "colSpan": 1
+        "colSpan": 1,
+        "type": "operator"
     },
     {
         "value": "7",
         "bgColor": "darkNumber",
-        "colSpan": 1
+        "colSpan": 1,
+        "type": "number"
     },
     {
         "value": "8",
         "bgColor": "darkNumber",
-        "colSpan": 1
+        "colSpan": 1,
+        "type": "number"
     },
     {
         "value": "9",
         "bgColor": "darkNumber",
-        "colSpan": 1
+        "colSpan": 1,
+        "type": "number"
     },
     {
-        "value": "multiply",
+        "value": "*",
         "bgColor": "lightOperator",
-        "colSpan": 1
+        "colSpan": 1,
+        "type": "operator"
     },
     {
         "value": "4",
         "bgColor": "darkNumber",
-        "colSpan": 1
+        "colSpan": 1,
+        "type": "number"
     },
     {
         "value": "5",
         "bgColor": "darkNumber",
-        "colSpan": 1
+        "colSpan": 1,
+        "type": "number"
     },
     {
         "value": "6",
         "bgColor": "darkNumber",
-        "colSpan": 1
+        "colSpan": 1,
+        "type": "number"
     },
     {
-        "value": "rest",
+        "value": "-",
         "bgColor": "lightOperator",
-        "colSpan": 1
+        "colSpan": 1,
+        "type": "operator"
     },
     {
         "value": "1",
         "bgColor": "darkNumber",
-        "colSpan": 1
+        "colSpan": 1,
+        "type": "number"
     },
     {
         "value": "2",
         "bgColor": "darkNumber",
-        "colSpan": 1
+        "colSpan": 1,
+        "type": "number"
     },
     {
         "value": "3",
         "bgColor": "darkNumber",
-        "colSpan": 1
+        "colSpan": 1,
+        "type": "number"
     },
     {
-        "value": "plus",
+        "value": "+",
         "bgColor": "lightOperator",
-        "colSpan": 1
+        "colSpan": 1,
+        "type": "operator"
     },
     {
         "value": "0",
         "bgColor": "darkNumber",
-        "colSpan": 2
+        "colSpan": 2,
+        "type": "number"
     },
     {
         "value": ".",
         "bgColor": "darkNumber",
-        "colSpan": 1
+        "colSpan": 1,
+        "type": "operator"
     },
     {
-        "value": "equal",
+        "value": "=",
         "bgColor": "lightOperator",
-        "colSpan": 1
+        "colSpan": 1,
+        "type": "operator"
     }
 ]
