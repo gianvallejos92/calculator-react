@@ -1,132 +1,113 @@
-const MAX_LENGTH = 20;
-const OPERATORS = ['+' , '÷', '*', '-'];
+import { getCalculatorResult } from './getCalculatorResult';
+import HandleDigit from './classes/HandleDigit';
+
+const PERCENT_NUMBER = 100;
 
 let global = {
     newValue: '',
-    curValue: '',
+    screenValue: '',
     isOperator: false,
     result: ''
 }
 
-const isValidScreenLimit = () => {
-    return global.curValue && global.curValue.length === MAX_LENGTH;
+function restartScreenValueToZero () { //Helper
+    global.result = "0";
 }
 
-const itsNegativeSign = (str, ind) => {
-    if (ind === 0 && ind + 1 != str.length && Number(str[ind+1])) return true;
-    if (ind > 0 && ind + 1 != str.length && Number(str[ind+1]) && OPERATORS.includes(str[ind-1])) return true;
-    return false;ß
+function isZero (value) { //Helper
+    return value === "0" ? true : false;
 }
 
-const splitNumbersAndSigns = (str) => {
-    let lastInit = 0;
-    let numbers = [];
-    let operators = [];
-    let error = false;
-    for (let ind = 0; ind < str.length; ind++) {
-        if (OPERATORS.includes(str[ind])) {
-            if (!itsNegativeSign(str, ind)) {
-                let aux = str.slice(lastInit, ind);
-                if (!Number(aux)) {
-                    return {
-                        "numbers": ['error'],
-                        "operators": ['error']
-                    }
-                }
-                numbers.push(Number(aux));
-                operators.push(str[ind]);
-                lastInit = ind + 1;
-            }
-        }
+function assignScreenValueToResult () { //Helper
+    global.result = global.screenValue;
+}
+
+/* DELETE LAST DIGIT ACTION */
+function existOneDigitOnScreen () {
+    return (global.screenValue.length === 1) ? true : false;
+}
+
+function deleteLastDigit() {
+    const value = String(global.screenValue);
+    global.result = value.slice(0, value.length - 1);
+}
+
+function deleteLastDigitAction () {
+    if (isZero(global.screenValue) || existOneDigitOnScreen()) {
+        restartScreenValueToZero();
+    } else {
+        deleteLastDigit();        
     }
-    if(!error && lastInit != 0) {
-        let aux = str.slice(lastInit);
-        if (!Number(aux)) {
-            return {
-                "numbers": ['error'],
-                "operators": ['error']
-            }
-        }
-        numbers.push(Number(aux));
-    }
-    return {numbers, operators}
+}
+/* END DELETE LAST DIGIT ACTION */
+
+function isScreenValueNumber () {
+    return Number(global.screenValue) ? true : false;
 }
 
-const executeOperation = (str) => {
-    //validate not operators together
-    let result = splitNumbersAndSigns(str);
+/* CALCULATE PERCENT ACTION */
+function calculatePercent () {
+    global.result = String(Number(global.screenValue) / PERCENT_NUMBER);
+}
 
-    console.log('result: ' + JSON.stringify(result));
+function calculatePercentAction () {
+    if (isScreenValueNumber()) {
+        calculatePercent();        
+    } else {
+        assignScreenValueToResult();
+    }
+}
+/* END CALCULATE PERCENT ACTION */
 
-    if (result.numbers.length != result.operators.length + 1) return "error";
+/* CALCULATE EQUAL RESULT ACTION */
+function assignCalculatedResult () {
+    global.result = getCalculatorResult(global.screenValue);
+}
 
-    const count = result.operators.reduce((acc, curValue, curIndex) => {
-        let res = result.numbers[0];
-        switch (curValue) {
-            case '+':
-                res = acc + result.numbers[curIndex+1];
-                break;
-            case '-':
-                res = acc - result.numbers[curIndex+1];
-                break;
-            case '*':
-                res = acc * result.numbers[curIndex+1];
-                break;
-            case '÷':
-                res = acc / result.numbers[curIndex+1];
-                break;
-            default:
-                break;
-        }
-        return res;
-    }, result.numbers[0]);
+function calculateEqualResult () {
+    if (isZero(global.screenValue) ) {
+        restartScreenValueToZero();
+    } else if (!isScreenValueNumber()) {
+        assignCalculatedResult();        
+    } else {
+        assignScreenValueToResult();
+    }
+}
+/* END CALCULATE EQUAL RESULT ACTION */
 
-    return count;
+
+function handleDigitAction () {
+    const hd = new HandleDigit(global.newValue, global.screenValue);
+    global.result = hd.result;
+}
+
+function calculateInsertedCommand () {
+    switch (global.newValue) {
+        case 'AC': 
+            restartScreenValueToZero();
+            break;
+        case 'CE':
+            deleteLastDigitAction();
+            break;
+        case '%':
+            calculatePercentAction();
+            break;
+        case '=':
+            calculateEqualResult();
+            break;
+        default:
+            handleDigitAction();
+            break;
+    }
 }
 
 const assignGlobalParameters = (newValue, curValue) => {
     global.newValue = newValue;
-    global.curValue = curValue;
-}
-
-function calculateResult () {
-    //CONVER TO SWITCH + CLEAN
-    if (global.newValue === 'AC') {
-        global.result = "0"; return;
-    } else if (global.newValue === 'CE') {
-        if (global.curValue == "0" || global.curValue.length === 1) {
-            global.result = "0";
-        } else {
-            let screenValue = String(global.curValue);
-            global.result = screenValue.slice(0, screenValue.length - 1);
-        }
-    } else if (global.newValue === '%') {
-        if (Number(global.curValue)) {
-            global.result = String(Number(global.curValue) / 100);
-        } else {
-            global.result = global.curValue;
-        }
-    } else if (global.newValue === '=') {
-        if (global.curValue === "0" ) {
-            global.result = "0";
-        } else if (!Number(global.curValue)) {
-            global.result = executeOperation(global.curValue);
-        } else {
-            global.result = global.curValue;
-        }
-    } else {
-        if (global.curValue == "0") {
-            global.result = global.newValue;
-        } else if (isValidScreenLimit()) {
-            global.result = global.curValue;
-        } else {
-            global.result = global.curValue + global.newValue; 
-        }  
-    }
+    global.screenValue = curValue;
 }
 
 export const calculatorOperation = (newValue, curValue) => {
     assignGlobalParameters(newValue, curValue);
-    calculateResult(); 
+    calculateInsertedCommand(); 
     return global.result;
 }
