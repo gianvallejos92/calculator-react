@@ -1,93 +1,107 @@
-const MAX_LENGTH = 12;
+const MAX_LENGTH = 20;
 const OPERATORS = ['+' , '÷', '*', '-'];
 
-let scope = {
+let global = {
     newValue: '',
     curValue: '',
-    isOperator: false
-}
-
-const findOperatorPosition = (str) => {
-    let operatorIndex = -1;
-    for (let ind = 0; ind < OPERATORS.length; ind++) {
-        let operatorIndex = str.indexOf(OPERATORS[ind]);        
-        if (operatorIndex != -1) { return operatorIndex; }
-    }
-    return operatorIndex;
-}
-
-const splitNumbersAndOperators = (str) => {
-    let operatorIndex = findOperatorPosition(String(str));
-    if (operatorIndex != -1 ) {
-        const numberAfterOperator = str.slice(operatorIndex + 1);
-        return [
-            Number(str.slice(0, operatorIndex)),
-            (numberAfterOperator) ? Number(numberAfterOperator) : -1,
-            str[operatorIndex]
-        ]
-    }
-    return [Number(str), operatorIndex, operatorIndex];
+    isOperator: false,
+    result: ''
 }
 
 const isValidScreenLimit = () => {
-    return scope.curValue && scope.curValue.length === MAX_LENGTH && !scope.isOperator;
+    return global.curValue && global.curValue.length === MAX_LENGTH;
 }
 
-const resolveEqualOperation = () => { 
-    let result = splitNumbersAndOperators(scope.curValue);
-    const firstNumber = result[0];
-    const secondNumber = result[1];
-    const operatorSymbol = result[2];
-    if (secondNumber != -1) {
-        switch (operatorSymbol) {
-            case OPERATORS[0]:
-                return Number(firstNumber + secondNumber);
-            case OPERATORS[1]:
-                const result = Number(firstNumber / secondNumber);
-                return (result % 1 != 0) ? result.toFixed(4) : result;
-            case OPERATORS[2]: 
-                return Number(firstNumber * secondNumber);
-            case OPERATORS[3]:
-                return Number(firstNumber - secondNumber);
-            default: 
-                return firstNumber;
-        }                    
-    } else {
-        return scope.curValue;
+const splitNumbersAndSigns = (str) => {
+    let lastInit = 0;
+    let numbers = [];
+    let operators = [];
+    let error = false;
+    for (let ind = 0; ind < str.length; ind++) {
+        if (OPERATORS.includes(str[ind])) {
+            let aux = str.slice(lastInit, ind);
+            if (!Number(aux)) {
+                return {
+                    "numbers": ['error'],
+                    "operators": ['error']
+                }
+            }
+            numbers.push(Number(aux));
+            operators.push(str[ind]);
+            lastInit = ind + 1;
+        }
     }
+    if(!error && lastInit != 0) {
+        let aux = str.slice(lastInit);
+        if (!Number(aux)) {
+            return {
+                "numbers": ['error'],
+                "operators": ['error']
+            }
+        }
+        numbers.push(Number(aux));
+    }
+    return {numbers, operators}
 }
 
-export const calculatorOperation = (newValue, curValue, isOperator) => {
-    scope.newValue = newValue;
-    scope.curValue = curValue;
-    scope.isOperator = isOperator;
+const executeOperation = (str) => {
+    //validate not operators together
+    let result = splitNumbersAndSigns(str);
 
-    //LIMIT SCREEN LENGTH
-    if (isValidScreenLimit()) return scope.curValue;
+    console.log('result: ' + result);
 
-    //HANDLE OPERATOR
-    if (isOperator) {
-        if (newValue === 'AC'){ 
-            return "0";
-        }
-        else if (newValue === '+/-' ) {
-            return "-" + curValue;
-        }
-        else if (newValue === '=') { //Resolve operations
-            return resolveEqualOperation();
-        }
-    } else {
-        let result = splitNumbersAndOperators(curValue);
-        const firstNumber = result[0];
-        const secondNumber = (result[1] === -1) ? 0 : result[1];
-        const operatorSymbol = result[2];
+    if (result.numbers.length != result.operators.length + 1) return "error";
 
-        if (operatorSymbol != -1) { //Not operator
-            return firstNumber + operatorSymbol + String(Number(secondNumber + newValue));
+    const count = result.operators.reduce((acc, curValue, curIndex) => {
+        let res = result.numbers[0];
+        switch (curValue) {
+            case '+':
+                res = acc + result.numbers[curIndex+1];
+                break;
+            case '-':
+                res = acc - result.numbers[curIndex+1];
+                break;
+            case '*':
+                res = acc * result.numbers[curIndex+1];
+                break;
+            case '÷':
+                res = acc / result.numbers[curIndex+1];
+                break;
+            default:
+                break;
+        }
+        return res;
+    }, result.numbers[0]);
+
+    return count;
+}
+
+const assignGlobalParameters = (newValue, curValue) => {
+    global.newValue = newValue;
+    global.curValue = curValue;
+}
+
+function calculateResult () {
+    //CONVER TO SWITCH + CLEAN
+    if (global.newValue === 'AC') {
+        global.result = "0"; return;
+    } else if (global.newValue === '=') { //Resolve operations
+        if (!Number(global.curValue)) {
+            global.result = executeOperation(global.curValue);
         } else {
-            return String(Number(firstNumber + newValue));            
+            global.result = global.curValue;
         }
-    }
+    } else if (global.curValue == "0") {
+        global.result = global.newValue;
+    } else if (isValidScreenLimit()) {
+        global.result = global.curValue;
+    } else {
+         global.result = global.curValue + global.newValue; 
+    }  
+}
 
-    return curValue + newValue; 
+export const calculatorOperation = (newValue, curValue) => {
+    assignGlobalParameters(newValue, curValue);
+    calculateResult(); 
+    return global.result;
 }

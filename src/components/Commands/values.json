@@ -6,13 +6,13 @@
         "type": "operator"
     },
     {
-        "value": "+/-",
+        "value": "i",
         "bgColor": "darkOperator",
         "colSpan": 1,
         "type": "operator"
     },
     {
-        "value": "%",
+        "value": "j",
         "bgColor": "darkOperator",
         "colSpan": 1,
         "type": "operator"
