@@ -3,106 +3,73 @@ import EvaluateNegativeSign from './EvaluateNegativeSign';
 const OPERATORS = ['+' , '÷', '*', '-'];
 
 export default class DivideNumbersAndOperators {    
-    result = {};
-
     numbers = [];
     operators = [];
-
     lastIndexToCut = 0;
     curIndex = 0;
-    possibleNumber = 0;
-
     error = false;
 
     constructor (str) {
         this.str = str;
-        this.exec();
+        this.init();
     }
 
-    exec () {
-        this.splitValuesUntilLastOperator();        
-        this.getNumberAfterLastOperator();
-        this.setErrors();           
-        this.updateResult();
+    init () {
+        this.splitValuesUntilLastOperator();       
+        this.getValueAfterLastOperator(); 
+        this.handleErrors();  
     }
 
     splitValuesUntilLastOperator () {
         for (let ind = 0; ind < this.str.length; ind++) {
             this.curIndex = ind;
-            if (this.isIndexAnOperator()) {
-                if (this.isTheCurrentSignNotNegative()) {
-                    this.getNewNumberAndOperator();
-                    if (this.error) break;
-                }
+            if (this.isIndexAnOperator() && this.isNotTheCurrentSignNegative() && !this.error) {
+                this.generateNumberAndOperator();
             }
         }
+        this.curIndex = this.str.length;
     }
 
     isIndexAnOperator () {
         return (OPERATORS.includes(this.str[this.curIndex])) ? true : false;
     }
 
-    isTheCurrentSignNotNegative () {
+    isNotTheCurrentSignNegative () {
         return new EvaluateNegativeSign(this.str, this.curIndex).isTheCurrentSignNotNegative();
     }
 
-    getNumberAfterLastOperator () {
+    getValueAfterLastOperator () {
         if(!this.error && this.lastIndexToCut != 0) {
-            this.cutStringFromBeginToEndToPossibleNumber(this.lastIndexToCut, this.str.length);
-            this.evaluateIfTheNewValueIsANumber();
-            if (!this.error) {
-                this.pushValueToNumbers(Number(this.possibleNumber));
+            this.curIndex = this.str.length;
+            this.generateNumberAndOperator();
+        }
+    }
+
+    generateNumberAndOperator () { 
+        let possibleNumber = this.str.slice(this.lastIndexToCut, this.curIndex);
+        if (!Number(possibleNumber)) {
+            this.error = true;
+        } else {            
+            this.numbers.push(Number(possibleNumber));
+            if (this.curIndex !== this.str.length) {
+                this.operators.push(this.str[this.curIndex]);
+                this.lastIndexToCut = this.curIndex + 1;
             }
         }
     }
 
-    setErrors() {
+    handleErrors() {
         if (this.error) {
-            this.pushValueToNumbers('error');
-            this.pushValueToOperators('error'); 
+            this.numbers.push('error');
+            this.operators.push('error'); 
         }
     }
 
-    updateResult () {
-        this.result = {
+    get result () {
+        return {
             "numbers": this.numbers, 
             "operators": this.operators
-        };
-    }
-
-    /* END */
-    
-    /* CLASS */
-    getNewNumberAndOperator () {        
-        this.cutStringFromBeginToEndToPossibleNumber(this.lastIndexToCut, this.curIndex);
-        this.evaluateIfTheNewValueIsANumber();
-        if (!this.error) {            
-            this.pushValueToNumbers(Number(this.possibleNumber));
-            this.pushValueToOperators(this.str[this.curIndex]);
-            this.updateLastIndexToCutWithCurrentIndexPlusOne();
         }
-    }
-
-    cutStringFromBeginToEndToPossibleNumber (begin, end) {
-        this.possibleNumber = this.str.slice(begin, end);
-    }
-
-    evaluateIfTheNewValueIsANumber () {
-        if (!Number(this.possibleNumber)) { //Evaluate if the possible number cut is not number
-            this.error = true;
-        }
-    }
-
-    pushValueToNumbers (value) {
-        this.numbers.push(value); //Add new number
-    }
-
-    pushValueToOperators (value) {
-        this.operators.push(value); //Add operator
-    }
-
-    updateLastIndexToCutWithCurrentIndexPlusOne () {
-        this.lastIndexToCut = this.curIndex + 1;
     }
 
 }
