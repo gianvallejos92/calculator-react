@@ -23,39 +23,19 @@ const assignGlobalParameters = (newValue, curValue) => {
 function calculateInsertedCommand () {
     switch (global.newValue) {
         case 'AC': 
-            restartScreenValueToZero();
+            global.result = "0";
             break;
         case 'CE':
-            deleteLastDigitAction();
+            global.result = new DeleteLastDigitAction(global.screenValue).result;
             break;
         case '%':
-            calculatePercentAction();
+            global.result = new HandlePercentAction(global.screenValue).result;
             break;
         case '=':
-            calculateEqualResult();
+            global.result = new HandleEqualAction(global.newValue, global.screenValue).result;
             break;
         default:
-            handleDigitAction();
+            global.result = new HandleDigitAction(global.newValue, global.screenValue).result;
             break;
     }
-}
-
-function restartScreenValueToZero () {
-    global.result = "0";
-}
-
-function deleteLastDigitAction () {
-    global.result = new DeleteLastDigitAction(global.screenValue).result;
-}
-
-function calculatePercentAction () {
-    global.result = new HandlePercentAction(global.screenValue).result;
-}
-
-function calculateEqualResult () {
-    global.result = new HandleEqualAction(global.newValue, global.screenValue).result;
-}
-
-function handleDigitAction () {
-    global.result = new HandleDigitAction(global.newValue, global.screenValue).result;
 }
