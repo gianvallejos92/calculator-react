@@ -5,10 +5,10 @@ export default class HandlePercentAction {
 
     constructor(screenValue) {
         this.screenValue = screenValue;
-        this.calculatePercentAction();
+        this.init();
     }
 
-    calculatePercentAction () {
+    init () {
         if (this.isScreenValueNumber()) {
             this.calculatePercent();        
         } else {            

@@ -6,10 +6,10 @@ export default class HandleDigitAction {
     constructor(newValue, screenValue) {
         this.newValue = newValue;
         this.screenValue = screenValue;
-        this.handleNewDigit();
+        this.init();
     }
 
-    handleNewDigit () {
+    init () {
         if (this.screenValue === "0") {  //isZero(value) - Helper
             this.assignNewValueToResult();        
         } else if (this.isValidScreenLimit()) {

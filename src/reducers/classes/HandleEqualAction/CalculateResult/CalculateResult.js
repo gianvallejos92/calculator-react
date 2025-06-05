@@ -1,6 +1,6 @@
 import DivideNumbersAndOperators from './DivideNumbersAndOperators';
 
-export const calculateResult = (str) => {
+export const CalculateResult = (str) => {
     const { numbers, operators } = new DivideNumbersAndOperators(str).result;
 
     if (numbers.length != operators.length + 1) return "error";

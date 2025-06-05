@@ -1,4 +1,4 @@
-import { calculateResult } from './calculateResult';
+import { CalculateResult } from "./CalculateResult/calculateResult";
 
 export default class HandleEqualAction {
     
@@ -7,10 +7,10 @@ export default class HandleEqualAction {
     constructor(newValue, screenValue) {
         this.newValue = newValue;
         this.screenValue = screenValue;
-        this.calculateEqualResult();
+        this.init();
     }
 
-    calculateEqualResult () {
+    init () {
         if (this.isScreenValueZero() ) {
             this.restartScreenValueToZero();
         } else if (this.isNotAScreenValueNumber()) {
@@ -33,7 +33,7 @@ export default class HandleEqualAction {
     }
 
     assignCalculatedResult () {
-        this.result = calculateResult(this.screenValue);
+        this.result = CalculateResult(this.screenValue);
     }
 
     assignScreenValueToResult () { //Helper

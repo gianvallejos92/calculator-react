@@ -4,32 +4,25 @@ export default class DeleteLastDigitAction {
 
     constructor(screenValue) {
         this.screenValue = screenValue;
-        this.deleteLastDigitAction();
+        this.init();
     }
 
-    deleteLastDigitAction () {
-        if (this.isScreenValueZero() || this.existOneDigitOnScreen()) {
-            this.restartScreenValueToZero();
+    init () {
+        if (this.isScreenValueZero()) {
+            this.result = "0";
         } else {
             this.deleteLastDigit();        
         }
     }
 
-    isScreenValueZero () { //Helper
-        return this.screenValue === "0" ? true : false;
-    }
-
-    existOneDigitOnScreen () {
-        return (this.screenValue.length === 1) ? true : false;
-    }
-
-    restartScreenValueToZero () { //Helper
-        this.result = "0";
+    isScreenValueZero () {
+        return (this.screenValue === "0") || (this.screenValue.length === 1) ? true : false;
     }
 
     deleteLastDigit() {
         const value = String(this.screenValue);
-        this.result = value.slice(0, value.length - 1);
+        const screenValueSize = value.length - 1;
+        this.result = value.slice(0, screenValueSize);
     }
 
     
