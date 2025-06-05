@@ -1,17 +1,12 @@
-import { NUMBER_ACTION, OPERATOR_ACTION } from '../actions/types'
+import { BTN_ACTION } from '../actions/types'
 import { calculatorOperation } from './calculateOperation'
 
 const generalReducer = (state, action) => {
     switch (action.type) {
-        case NUMBER_ACTION: 
+        case BTN_ACTION: 
             return {
                 ...state,
-                screenValue: calculatorOperation(action.value, state.screenValue, false)
-            }
-        case OPERATOR_ACTION:
-            return {
-                ...state,
-                screenValue: calculatorOperation(action.value, state.screenValue, true)
+                screenValue: calculatorOperation(action.value, state.screenValue)
             }
         default:
             return state;

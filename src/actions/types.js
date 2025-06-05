@@ -1,2 +1,1 @@
-export const NUMBER_ACTION = "NUMBER_ACTION";
-export const OPERATOR_ACTION = "OPERATOR_ACTION";
+export const BTN_ACTION = "BTN_ACTION";

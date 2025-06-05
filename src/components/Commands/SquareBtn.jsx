@@ -16,11 +16,6 @@ const operationMap = {
     'equal': <Equal />
 }
 
-const valueTypeMap = {
-    'number': 'NUMBER_ACTION',
-    'operator': 'OPERATOR_ACTION'
-}
-
 const heightStyle = "h-16 text-2xl ";
 const flexStyle = "flex justify-center items-center ";
 const borderStyle = "border-r border-b border-black ";
@@ -29,7 +24,7 @@ const SquareBtn = ({item}) => {
     const { dispatch } = useContext(GeneralContext);
     const handleOnClick = () => {
         dispatch({ 
-            type: valueTypeMap[item.type],
+            type: 'BTN_ACTION',
             value: item.value 
         });
     };
