@@ -1,3 +1,5 @@
+import EvaluateNegativeSign from './EvaluateNegativeSign';
+
 const OPERATORS = ['+' , '÷', '*', '-'];
 
 export default class DivideNumbersAndOperators {    
@@ -36,6 +38,14 @@ export default class DivideNumbersAndOperators {
         }
     }
 
+    isIndexAnOperator () {
+        return (OPERATORS.includes(this.str[this.curIndex])) ? true : false;
+    }
+
+    isTheCurrentSignNotNegative () {
+        return new EvaluateNegativeSign(this.str, this.curIndex).isTheCurrentSignNotNegative();
+    }
+
     getNumberAfterLastOperator () {
         if(!this.error && this.lastIndexToCut != 0) {
             this.cutStringFromBeginToEndToPossibleNumber(this.lastIndexToCut, this.str.length);
@@ -62,6 +72,7 @@ export default class DivideNumbersAndOperators {
 
     /* END */
     
+    /* CLASS */
     getNewNumberAndOperator () {        
         this.cutStringFromBeginToEndToPossibleNumber(this.lastIndexToCut, this.curIndex);
         this.evaluateIfTheNewValueIsANumber();
@@ -93,38 +104,5 @@ export default class DivideNumbersAndOperators {
     updateLastIndexToCutWithCurrentIndexPlusOne () {
         this.lastIndexToCut = this.curIndex + 1;
     }
-
-    isIndexAnOperator () {
-        return (OPERATORS.includes(this.str[this.curIndex])) ? true : false;
-    }
-
-    //CLASS
-    isTheCurrentSignNotNegative = () => {
-        if (this.isCurrentIndexZero() && this.isNotLastIndex() && this.isNextIndexANumber()) return false;
-        if (this.isCurrentIndexHigherThanZero() && this.isNotLastIndex() && this.isNextIndexANumber() && this.isPreviousIndexAnOperator()) return false;
-        return true;
-    }
-
-    isCurrentIndexZero () {
-        return (this.curIndex === 0) ? true : false;
-    }
-
-    isNotLastIndex () {
-        return (this.curIndex + 1 != this.str.length) ? true : false;
-    }
-
-    isNextIndexANumber () {
-        return (Number(this.str[this.curIndex+1])) ? true : false;
-    }
-
-    isCurrentIndexHigherThanZero () {
-        return (this.curIndex > 0) ? true : false;
-    }
-
-    isPreviousIndexAnOperator () {
-        return OPERATORS.includes(this.str[this.curIndex-1]) ? true : false;
-    }
-    //END CLASS
-
 
 }
