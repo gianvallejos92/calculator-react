@@ -10,7 +10,7 @@ export default class HandleDigitAction {
     }
 
     init () {
-        if (this.screenValue === "0") {  //isZero(value) - Helper
+        if (this.screenValue === "0") {
             this.assignNewValueToResult();        
         } else if (this.isValidScreenLimit()) {
             this.assignScreenValueToResult();

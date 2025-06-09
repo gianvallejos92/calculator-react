@@ -20,11 +20,11 @@ export default class HandleEqualAction {
         }
     }
 
-    isScreenValueZero () { //Helper
+    isScreenValueZero () {
         return this.screenValue === "0" ? true : false;
     }
 
-    restartScreenValueToZero () { //Helper
+    restartScreenValueToZero () {
         this.result = "0";
     }
 
@@ -36,7 +36,7 @@ export default class HandleEqualAction {
         this.result = CalculateResult(this.screenValue);
     }
 
-    assignScreenValueToResult () { //Helper
+    assignScreenValueToResult () {
         this.result = this.screenValue;
     }
 

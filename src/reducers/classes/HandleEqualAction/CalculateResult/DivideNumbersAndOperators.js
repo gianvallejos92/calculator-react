@@ -23,11 +23,15 @@ export default class DivideNumbersAndOperators {
     splitValuesUntilLastOperator () {
         for (let ind = 0; ind < this.str.length; ind++) {
             this.curIndex = ind;
-            if (this.isIndexAnOperator() && this.isNotTheCurrentSignNegative() && !this.error) {
+            if (this.isValidOperator()) {
                 this.generateNumberAndOperator();
             }
         }
         this.curIndex = this.str.length;
+    }
+
+    isValidOperator () {
+        return (this.isIndexAnOperator() && this.isNotTheCurrentSignNegative() && !this.error) ? true : false;
     }
 
     isIndexAnOperator () {
@@ -46,16 +50,28 @@ export default class DivideNumbersAndOperators {
     }
 
     generateNumberAndOperator () { 
-        let possibleNumber = this.str.slice(this.lastIndexToCut, this.curIndex);
-        if (!Number(possibleNumber)) {
+        let possibleNumber = this.cutStringFromBeginToEnd(this.lastIndexToCut, this.curIndex);
+        if (this.isNotNumber(possibleNumber)) {
             this.error = true;
         } else {            
             this.numbers.push(Number(possibleNumber));
-            if (this.curIndex !== this.str.length) {
+            if (this.curIndexIsNotEndOfString()) {
                 this.operators.push(this.str[this.curIndex]);
                 this.lastIndexToCut = this.curIndex + 1;
             }
         }
+    }
+
+    cutStringFromBeginToEnd (begin, end) {
+        return this.str.slice(begin, end);
+    }
+
+    isNotNumber (value) {
+        return !Number(value) ? true : false;
+    }
+
+    curIndexIsNotEndOfString () {
+        return (this.curIndex !== this.str.length) ? true : false; 
     }
 
     handleErrors() {
